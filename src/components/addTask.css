@@ -1,0 +1,17 @@
+.textField {
+    outline: none;
+    outline-color: white !important;
+}
+
+/* .addIconButton {
+    color: white !important;
+    border: 1px solid  #8877fe !important;
+    border-radius: 12px !important;
+    background-color: #8877fe !important;
+    transition: 0.2s !important;
+}
+.addIconButton:hover {
+    transform: scale(1.07,1.07) !important;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 1);
+} */
+

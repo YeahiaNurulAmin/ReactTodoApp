@@ -1,0 +1,16 @@
+.taskDiv {
+    background-color: red;
+    transition: 0.3s;
+}
+.taskDiv:hover {
+    transform: scale(1.01,1.01);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 1);
+}
+
+
+button {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    transition: 0.3s;
+}

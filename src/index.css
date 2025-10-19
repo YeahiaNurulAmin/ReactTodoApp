@@ -1,0 +1,30 @@
+
+:root {
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding-bottom: 20px;
+
+
+}
+* {
+  scrollbar-width: thin;         
+  scrollbar-color: #5fa9fe #8777fe; 
+  scrollbar-arrow-color: #5fa9fe;
+  
+}
