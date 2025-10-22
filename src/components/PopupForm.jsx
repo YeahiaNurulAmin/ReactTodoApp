@@ -9,6 +9,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function FormDialog({ state, toDo, handleEditSaveClick }) {
     let [newInput, setNewInput] = React.useState(toDo.title);
 
+
+    React.useEffect(() => {
+        // FormDialog();
+        setNewInput(toDo.title);
+    }, [state.open]);
+
     const handleClose = () => {
         state.setOpen(false);
         setNewInput(toDo.title);
@@ -16,8 +22,7 @@ export default function FormDialog({ state, toDo, handleEditSaveClick }) {
 
     return (
         <React.Fragment>
-            <Dialog
-             open={state.open} onClose={handleClose}>
+            <Dialog open={state.open} onClose={handleClose}>
                 <DialogTitle>Edit</DialogTitle>
                 <DialogContent>
                     <TextField

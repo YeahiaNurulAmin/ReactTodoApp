@@ -3,13 +3,25 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Container from "@mui/material/Container";
 import AddTask from "./AddTask";
 import Task from "./Task";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import { ContextTodos } from "../contexts/contextTodos";
+import FullPopupMessage from "./FullPopupMessage";
+import PopupForm from "./PopupForm";
 
 export default function ToDo() {
     let { arrTodos, setArrTodos } = useContext(ContextTodos);
     let [finalTodos, setFinalTodos] = useState(arrTodos);
     let [todosStatus, setTodosStatus] = useState(0);
+    let [openDeletePopup, setOpenDeletePopup] = useState(false);
+    let [openEditPopup, setOpenEditPopup] = useState(false);
+    let [currentTask, setCurrentTask] = useState({});
+    
+
+    // Just for practice
+    useMemo(() => {
+        
+    }, [arrTodos]);
+
 
     // To to types Buttons
     const buttons = [
@@ -36,11 +48,10 @@ export default function ToDo() {
     //Add or Update to localStorage
     useEffect(() => {
         localStorage.setItem("todos", JSON.stringify(arrTodos));
-        filtingArrToDos();
-        console.log("useEffect working");
+        filteringArrToDos();
     }, [arrTodos, todosStatus]);
 
-    const filtingArrToDos = () => {
+    const filteringArrToDos = () => {
         if (todosStatus == 1) {
             setFinalTodos(arrTodos.filter((t) => t.isCompleted === false));
         } else if (todosStatus == 2) {
@@ -50,31 +61,84 @@ export default function ToDo() {
         }
     };
 
+    // ===Dialogs===
+    // ** Delete btn event **
+    const popupMessageWhenAccept = () => {
+        setArrTodos(arrTodos.filter((t) => t.id !== currentTask.id));
+    };
+
+    const handleDeleteBtnClick = (task) => {
+        setOpenDeletePopup(true);
+        setCurrentTask(task);
+    };
+    // ## delete btn event ##
+
+    // ** edit btn event **
+    const handleEditBtnClick = (task) => {
+        setOpenEditPopup(true);
+        setCurrentTask(task);
+
+    };
+
+    const handleEditSaveClick = (newInput) => {
+        if (newInput) {
+            setArrTodos(
+                arrTodos.map((t) => {
+                    if (currentTask.id === t.id) {
+                        return { ...t, title: newInput };
+                    }
+                    return t;
+                })
+            );
+        }
+    };
+
+    // Final Result to Show
     const showTodo = finalTodos.map((task) => {
-        return <Task key={task.id} toDo={task} />;
+        return <Task key={task.id} toDo={task} handleDeleteBtnClick={handleDeleteBtnClick} handleEditBtnClick={handleEditBtnClick}/>;
     });
 
     return (
-        <Container
-            style={{
-                backgroundColor: "#8877fe",
-                minHeight: "300px",
-                borderRadius: "12px",
-                padding: "15px",
-            }}
-            maxWidth="sm">
-            <ButtonGroup
-                variant="contained"
-                aria-label="Medium-sized button group">
-                {buttons}
-            </ButtonGroup>
+        <>
+            <Container
+                style={{
+                    backgroundColor: "#8877fe",
+                    minHeight: "300px",
+                    borderRadius: "12px",
+                    padding: "15px",
+                }}
+                maxWidth="sm">
+                <ButtonGroup
+                    variant="contained"
+                    aria-label="Medium-sized button group">
+                    {buttons}
+                </ButtonGroup>
 
-            <hr />
-            <div style={{maxHeight: "65vh", overflowX: "hidden", overflowY: "auto"}}>
-            {showTodo}
-            </div>
+                <hr />
+                <div
+                    style={{
+                        maxHeight: "65vh",
+                        overflowX: "hidden",
+                        overflowY: "auto",
+                    }}>
+                    {showTodo}
+                </div>
 
-            <AddTask arrTodo={arrTodos} setArrTodo={setArrTodos} />
-        </Container>
+                <AddTask arrTodo={arrTodos} setArrTodo={setArrTodos} />
+            </Container>
+
+            {/* This Dialog I named: */}
+            <FullPopupMessage
+                open={openDeletePopup}
+                setOpen={setOpenDeletePopup}
+                popupMessageWhenAccept={popupMessageWhenAccept}
+            />
+            {/* This Dialog I named: */}
+            <PopupForm
+                handleEditSaveClick={handleEditSaveClick}
+                state={{ open: openEditPopup, setOpen: setOpenEditPopup }}
+                toDo={currentTask}
+            />
+        </>
     );
 }

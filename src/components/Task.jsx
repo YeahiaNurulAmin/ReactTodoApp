@@ -2,20 +2,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ContextTodos } from "../contexts/contextTodos";
-import { useContext } from "react";
-import FullPopupMessage from "./FullPopupMessage";
-import PopupForm from "./PopupForm";
 import "./task.css";
 
-export default function Task({ toDo }) {
+export default function Task({
+    toDo,
+    handleEditBtnClick,
+    handleDeleteBtnClick,
+}) {
     let { arrTodos, setArrTodos } = useContext(ContextTodos);
 
     let [showOption, setShowOption] = useState(false);
     // Delete popup message
-    let [openDeletePopup, setOpenDeletePopup] = useState(false);
-    const [openEditPopup, setOpenEditPopup] = useState(false);
+
     let checkBtnStatus;
 
     if (toDo.isCompleted) {
@@ -34,34 +34,6 @@ export default function Task({ toDo }) {
                 return task;
             })
         );
-    };
-
-    // ** Delete btn event **
-    const popupMessageWhenAccept = () => {
-        setArrTodos(arrTodos.filter((t) => t.id !== toDo.id));
-    };
-
-    const handleDeleteBtnClick = () => {
-        setOpenDeletePopup(true);
-    };
-    // ## delete btn event ##
-
-    // ** edit btn event **
-    const handleEditBtnClick = () => {
-        setOpenEditPopup(true);
-    };
-
-    const handleEditSaveClick = (newInput) => {
-        if (newInput) {
-            setArrTodos(
-                arrTodos.map((t) => {
-                    if (toDo.id === t.id) {
-                        return { ...t, title: newInput };
-                    }
-                    return t;
-                })
-            );
-        }
     };
 
     // ## edit btn event ##
@@ -90,7 +62,7 @@ export default function Task({ toDo }) {
                             ? "line-through"
                             : "",
                         textDecorationColor: "black",
-                        textDecorationThickness: "2px"
+                        textDecorationThickness: "2px",
                     }}>
                     {toDo.title}
                 </p>
@@ -101,7 +73,7 @@ export default function Task({ toDo }) {
                         width: "30%",
                         justifyContent: "space-around",
                     }}>
-                    {/* *** Check Btn *** */}
+                    {/* Start Check Btn  */}
                     <div style={{ paddingRight: "0" }} hidden={!checkBtnStatus}>
                         <IconButton
                             onClick={() => {
@@ -119,40 +91,35 @@ export default function Task({ toDo }) {
                             />
                         </IconButton>
                     </div>
-                    {/* ### Check Btn ### */}
+                    {/* End Check Btn  */}
+                    {/* Start Delete and Edit Btn */}
                     <div hidden={!showOption}>
-                        {/*** / Edit Btn *** */}
-                        <IconButton onClick={handleEditBtnClick}>
+                        {/* Start Edit Btn  */}
+                        <IconButton
+                            onClick={() => {
+                                handleEditBtnClick(toDo);
+                            }}>
                             <EditNoteIcon
                                 style={{ color: "#fedf49" }}
                                 className="iconButton"
                             />
                         </IconButton>
                         {/* End edit btn */}
-                        {/* *** Delete Button *** */}
+                        {/* Start Delete Button */}
                         <IconButton
                             onClick={() => {
-                                handleDeleteBtnClick();
+                                handleDeleteBtnClick(toDo);
                             }}>
                             <DeleteForeverIcon
                                 style={{ color: "#c62828" }}
                                 className="iconButton"
                             />
                         </IconButton>
-                        {/* ### Delete Btn ### */}
+                        {/* End Delete Btn  */}
                     </div>
+                    {/* End Delete and Edit Btn */}
                 </div>
             </div>
-            <FullPopupMessage
-                open={openDeletePopup}
-                setOpen={setOpenDeletePopup}
-                popupMessageWhenAccept={popupMessageWhenAccept}
-            />
-            <PopupForm
-                handleEditSaveClick={handleEditSaveClick}
-                state={{ open: openEditPopup, setOpen: setOpenEditPopup }}
-                toDo={toDo}
-            />
         </>
     );
 }
