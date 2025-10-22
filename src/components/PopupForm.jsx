@@ -13,7 +13,7 @@ export default function FormDialog({ state, toDo, handleEditSaveClick }) {
     React.useEffect(() => {
         // FormDialog();
         setNewInput(toDo.title);
-    }, [state.open]);
+    }, [state.open, toDo.title]);
 
     const handleClose = () => {
         state.setOpen(false);
