@@ -7,6 +7,7 @@ import { useContext, useEffect, useState, useMemo } from "react";
 import { ContextTodos } from "../contexts/contextTodos";
 import FullPopupMessage from "./FullPopupMessage";
 import PopupForm from "./PopupForm";
+import MySnackBar from './MySnackBar';
 
 export default function ToDo() {
     let { arrTodos, setArrTodos } = useContext(ContextTodos);
@@ -15,6 +16,7 @@ export default function ToDo() {
     let [openDeletePopup, setOpenDeletePopup] = useState(false);
     let [openEditPopup, setOpenEditPopup] = useState(false);
     let [currentTask, setCurrentTask] = useState({});
+     let [showSnackBar, setShowSnackBar] = useState(null);
     
 
     // Just for practice
@@ -65,6 +67,7 @@ export default function ToDo() {
     // ** Delete btn event **
     const popupMessageWhenAccept = () => {
         setArrTodos(arrTodos.filter((t) => t.id !== currentTask.id));
+        showSnackBar('Todo Deleted Successfully', 'success');
     };
 
     const handleDeleteBtnClick = (task) => {
@@ -90,8 +93,10 @@ export default function ToDo() {
                     return t;
                 })
             );
+            showSnackBar('Todo Edited Successfully', 'success');
         }
     };
+
 
     // Final Result to Show
     const showTodo = finalTodos.map((task) => {
@@ -139,6 +144,7 @@ export default function ToDo() {
                 state={{ open: openEditPopup, setOpen: setOpenEditPopup }}
                 toDo={currentTask}
             />
+            <MySnackBar setShowSnackBar={setShowSnackBar} />
         </>
     );
 }

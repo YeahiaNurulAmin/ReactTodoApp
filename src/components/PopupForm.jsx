@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function FormDialog({ state, toDo, handleEditSaveClick }) {
     let [newInput, setNewInput] = React.useState(toDo.title);
 
-
+// To get the latest value of the task
     React.useEffect(() => {
         // FormDialog();
         setNewInput(toDo.title);
