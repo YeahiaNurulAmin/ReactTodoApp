@@ -16,7 +16,7 @@ export default function ToDo() {
     let [openDeletePopup, setOpenDeletePopup] = useState(false);
     let [openEditPopup, setOpenEditPopup] = useState(false);
     let [currentTask, setCurrentTask] = useState({});
-     let [showSnackBar, setShowSnackBar] = useState(null);
+    let [showSnackBar, setShowSnackBar] = useState(null);
     
 
     // Just for practice
@@ -64,10 +64,10 @@ export default function ToDo() {
     };
 
     // ===Dialogs===
-    // ** Delete btn event **
+    //Start Delete btn event 
     const popupMessageWhenAccept = () => {
         setArrTodos(arrTodos.filter((t) => t.id !== currentTask.id));
-        showSnackBar('Todo Deleted Successfully', 'success');
+        showSnackBar('Todo Deleted', 'success');
     };
 
     const handleDeleteBtnClick = (task) => {
@@ -93,14 +93,14 @@ export default function ToDo() {
                     return t;
                 })
             );
-            showSnackBar('Todo Edited Successfully', 'success');
+            showSnackBar('Todo Updated', 'success');
         }
     };
 
 
     // Final Result to Show
     const showTodo = finalTodos.map((task) => {
-        return <Task key={task.id} toDo={task} handleDeleteBtnClick={handleDeleteBtnClick} handleEditBtnClick={handleEditBtnClick}/>;
+        return <Task showSnackBar={showSnackBar} key={task.id} toDo={task} handleDeleteBtnClick={handleDeleteBtnClick} handleEditBtnClick={handleEditBtnClick}/>;
     });
 
     return (
@@ -129,7 +129,7 @@ export default function ToDo() {
                     {showTodo}
                 </div>
 
-                <AddTask arrTodo={arrTodos} setArrTodo={setArrTodos} />
+                <AddTask showSnackBar={showSnackBar} arrTodo={arrTodos} setArrTodo={setArrTodos} />
             </Container>
 
             {/* This Dialog I named: */}

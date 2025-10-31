@@ -10,6 +10,7 @@ export default function Task({
     toDo,
     handleEditBtnClick,
     handleDeleteBtnClick,
+    showSnackBar
 }) {
     let { arrTodos, setArrTodos } = useContext(ContextTodos);
 
@@ -30,6 +31,7 @@ export default function Task({
             arrTodos.map((task) => {
                 if (task.id == currentTask.id) {
                     task.isCompleted = !currentTask.isCompleted;
+                    showSnackBar(currentTask.isCompleted ? 'Todo Done' : 'Todo Not Done Yet', 'success');
                 }
                 return task;
             })

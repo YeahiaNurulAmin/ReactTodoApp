@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
 function MyApp({ setShowSnackBar }) {
@@ -21,7 +20,7 @@ function MyApp({ setShowSnackBar }) {
 
 export default function MySnackBar({ setShowSnackBar }) {
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={3} autoHideDuration={2000}>
       <MyApp setShowSnackBar={setShowSnackBar} />
     </SnackbarProvider>
   );

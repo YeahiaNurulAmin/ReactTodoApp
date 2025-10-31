@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 
 
 
-export default function AddTask({ arrTodo, setArrTodo }) {
+export default function AddTask({ arrTodo, setArrTodo, showSnackBar }) {
     let [inputTask, setInputTask] = useState({});
     let [textInputValue, setTextInputValue] = useState("");
 
@@ -21,15 +21,16 @@ export default function AddTask({ arrTodo, setArrTodo }) {
         });
     };
 
-    const hendleOnAddClick = () => {
+    const handleOnAddClick = () => {
         if (textInputValue) {
             setArrTodo([...arrTodo, inputTask]);
             setTextInputValue("");
+            showSnackBar('Todo Added', 'success');
         }
     };
 
     const handleKeyDown = (event) => {
-        if (event.key === "Enter") hendleOnAddClick();
+        if (event.key === "Enter") handleOnAddClick();
     };
 
     return (
@@ -57,7 +58,7 @@ export default function AddTask({ arrTodo, setArrTodo }) {
 
             <Button
                 disabled={textInputValue <= 0}
-                onClick={hendleOnAddClick}
+                onClick={handleOnAddClick}
                 key={"enter"}
                 style={{ color: "white", backgroundColor: "#8877fe" }}
                 variant="contained"
