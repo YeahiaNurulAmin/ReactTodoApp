@@ -11,7 +11,8 @@ export default function AddTask({ arrTodo, setArrTodo, showSnackBar }) {
     let [inputTask, setInputTask] = useState({});
     let [textInputValue, setTextInputValue] = useState("");
 
-    const hendleTextFieldChange = (event) => {
+    // Text field change event handler
+    const handleTextFieldChange = (event) => {
         setTextInputValue(event.target.value);
 
         setInputTask({
@@ -21,6 +22,7 @@ export default function AddTask({ arrTodo, setArrTodo, showSnackBar }) {
         });
     };
 
+    // Add Task button event handler
     const handleOnAddClick = () => {
         if (textInputValue) {
             setArrTodo([...arrTodo, inputTask]);
@@ -29,6 +31,7 @@ export default function AddTask({ arrTodo, setArrTodo, showSnackBar }) {
         }
     };
 
+    // Handle Enter key press
     const handleKeyDown = (event) => {
         if (event.key === "Enter") handleOnAddClick();
     };
@@ -52,7 +55,7 @@ export default function AddTask({ arrTodo, setArrTodo, showSnackBar }) {
                 id="standard-basic"
                 label="Add Task"
                 variant="standard"
-                onChange={hendleTextFieldChange}
+                onChange={handleTextFieldChange}
                 onKeyDown={handleKeyDown}
             />
 
